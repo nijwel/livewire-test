@@ -11,6 +11,7 @@
     </select>
     <input type="search" class="form-control form-control-sm w-25" placeholder="Search..."
         wire:model.live.debounce.500ms="search">
+    <a href="/subcategory" class="btn btn-sm btn-info mb-2">Subcategory</a>
     <button class="btn btn-sm btn-primary mb-2 float-end" wire:click="changeView('create')">+ Create New</button>
 </div>
 <table class="table table-bordered">
@@ -27,8 +28,8 @@
             <tr>
                 <td>{{ ++$key }}</td>
                 <td>{{ $category->name }}</td>
-                <td><span
-                        class=" badge @if ($category->status == 'active') bg-success @else bg-danger @endif  ">{{ $category->status }}</span>
+                <td><span class=" badge @if ($category->status == 'active') bg-success @else bg-danger @endif"
+                        role="button" wire:click="changeStatus({{ $category->id }})">{{ $category->status }}</span>
                 </td>
                 <td>
                     <button class="btn

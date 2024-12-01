@@ -76,6 +76,14 @@ class CategoryManager extends Component {
         $this->view = 'list';
     }
 
+    public function changeStatus( $id ) {
+        $category         = Category::findOrFail( $id );
+        $category->status = $category->status == 'active' ? 'inactive' : 'active';
+        $category->save();
+
+        session()->flash( 'message', 'Category ' . $category->status . ' successfully!' );
+    }
+
     public function confirmDelete( $id ) {
         $this->confirmingDelete = true;
         $this->deleteId         = $id;

@@ -102,6 +102,14 @@ class SubcategoryManager extends Component {
         $this->view = 'list';
     }
 
+    public function changeStatus( $id ) {
+        $subcategory         = Category::findOrFail( $id );
+        $subcategory->status = $subcategory->status == 'active' ? 'inactive' : 'active';
+        $subcategory->save();
+
+        session()->flash( 'message', 'Subcategory ' . $subcategory->status . ' successfully!' );
+    }
+
     public function confirmDelete( $id ) {
         $this->deleteId         = $id;
         $this->confirmingDelete = true;
