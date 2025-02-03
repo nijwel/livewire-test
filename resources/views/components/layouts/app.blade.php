@@ -29,6 +29,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
+                <a class="btn btn-sm btn-warning" href="{{ route('clear') }}">Clear</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -61,6 +62,9 @@
                                     ware:current="active fw-bold">Home</a></li>
                             <li><a class="nav-link" href="/category" ware:current="active fw-bold"
                                     wire:navigate>Category</a>
+                            </li>
+                            <li><a class="nav-link" href="/subcategory" ware:current="active fw-bold"
+                                    wire:navigate>Subcategory</a>
                             </li>
                             <li><a class="nav-link" href="/post" wire:navigate ware:current="active fw-bold">Posts</a>
                             </li>
