@@ -34,7 +34,7 @@ class PostManager extends Component {
     ];
 
     public function mount() {
-        $this->categories = Category::whereStatus( 'active' )->get( ['id', 'name'] );
+        $this->categories = Category::whereStatus( 'active' )->whereNull( 'parent_id' )->get( ['id', 'name'] );
     }
 
     public function resetForm() {

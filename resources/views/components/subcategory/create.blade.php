@@ -5,11 +5,23 @@
             {{ session('message') }}
         </div>
     @endif
-    <form wire:submit.prevent="store">
+    <form wire:submit.prevent="subcategoryStore">
         <div class="form-group mt-3">
             <label for="name">Name</label>
             <input type="text" class="form-control" id="name" placeholder="Enter name" wire:model="name">
             @error('name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6 mt-3">
+            <label for="category">Category</label>
+            <select name="parent_id" class="form-control" id="parent_id" wire:model="parent_id">
+                <option value="">Select</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('parent_id')
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
@@ -24,7 +36,7 @@
                 <span class="text-danger">{{ $message }}</span>
             @enderror
         </div>
-        <button type="button" class="btn btn-sm btn-primary mt-3" wire:click="store">Save</button>
+        <button type="button" class="btn btn-sm btn-primary mt-3" wire:click="subcategoryStore">Save</button>
         <button type="button" class="btn btn-sm btn-secondary mt-3" wire:click="changeView('list')">Cancel</button>
     </form>
 </div>
