@@ -17,11 +17,12 @@
         <tr>
             <th>#</th>
             <th>Name</th>
+            <th>Category</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Image</th>
             <th>Description</th>
-            <th>Actions</th>
+            <th width="150">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
             <tr>
                 <td>{{ ++$key }}</td>
                 <td>{{ $post->name }}</td>
+                <td>{{ $post->category?->name }}</td>
                 <td>{{ $post->price }}</td>
                 <td>{{ $post->quantity }}</td>
                 <td>

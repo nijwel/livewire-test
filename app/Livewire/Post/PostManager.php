@@ -39,6 +39,7 @@ class PostManager extends Component {
     public function render() {
         $posts = Post::where( 'name', 'like', '%' . $this->search . '%' )
             ->orWhere( 'description', 'like', '%' . $this->search . '%' )
+            ->with( 'category:id,name' )
             ->latest()
             ->paginate( $this->perPage );
 
