@@ -15,7 +15,7 @@ class PostFactory extends Factory {
         return [
             'category_id' => rand( 1, 10 ),
             'name'        => $name,
-            'slug'        => Str::slug( $name ),
+            'slug'        => Str::slug( $name ) . '-' . $this->faker->unique()->numberBetween( 1, 100000 ),
             'price'       => $this->faker->randomFloat( 2, 10, 1000 ),
             'quantity'    => $this->faker->numberBetween( 1, 100 ),
             'description' => $this->faker->sentence(),

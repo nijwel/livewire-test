@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between mb-2">
-    <h3>Product List</h3>
+    <h3>Category List</h3>
     <select name="per_page" class="form-control w-25" wire:model.live="perPage">
         <option value="5">5</option>
         <option value="10">10</option>
