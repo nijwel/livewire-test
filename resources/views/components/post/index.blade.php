@@ -9,6 +9,12 @@
         <option value="100">100</option>
         <option value="200">200</option>
     </select>
+    <select name="category_id" class="form-control w-25" wire:model.live="category_id">
+        <option value="">All</option>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+    </select>
     <input type="text" class="form-control w-25" placeholder="Search..." wire:model.live.debounce.500ms="search">
     <button class="btn btn-sm btn-primary mb-2 float-end" wire:click="changeView('create')">+ Create Post</button>
 </div>

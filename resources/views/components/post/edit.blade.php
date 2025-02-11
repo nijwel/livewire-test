@@ -14,31 +14,46 @@
     <button type="button" class="btn btn-secondary" wire:click="changeView('list')">Back</button>
 </form> --}}
 
-<form wire:submit.prevent="update">
-    <div class="form-group mt-3">
-        <label for="name">Product Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter product name" wire:model="name">
-        @error('name')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-    </div>
-    <div class="form-group mt-3">
-        <label for="price">Price</label>
-        <input type="number" class="form-control" id="price" placeholder="Enter price" wire:model="price">
-        @error('price')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
-    </div>
-    <div class="form-group mt-3">
-        <label for="quantity">Quantity</label>
-        <input type="number" class="form-control" id="quantity" placeholder="Enter quantity" wire:model="quantity">
-        @error('quantity')
-            <span class="text-danger">{{ $message }}</span>
-        @enderror
+<form wire:submit.prevent="postUpdate">
+    <div class="row">
+        <div class="form-group col-lg-6 mt-3">
+            <label for="name">Title</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter title" wire:model="name">
+            @error('name')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6 mt-3">
+            <label for="category">Category</label>
+            <select name="category_id" class="form-control" id="category_id" wire:model="category_id">
+                <option value="">Select</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+            @error('category_id')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6 mt-3">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" placeholder="Enter price" wire:model="price">
+            @error('price')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6 mt-3">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" placeholder="Enter quantity"
+                wire:model="quantity">
+            @error('quantity')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
     </div>
     <div class="form-group mt-3 row">
         <div class="col-md-10">
-            <label for="image">Product Image</label>
+            <label for="image">Image</label>
             <input type="file" class="form-control" id="image" wire:model="newImage">
             @error('image')
                 <span class="text-danger">{{ $message }}</span>
@@ -58,6 +73,6 @@
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
-    <button type="submit" class="btn btn-sm btn-success mt-3">Update</button>
+    <button type="button" class="btn btn-sm btn-primary mt-3" wire:click="postUpdate">Save</button>
     <button type="button" class="btn btn-sm btn-secondary mt-3" wire:click="changeView('list')">Back</button>
 </form>

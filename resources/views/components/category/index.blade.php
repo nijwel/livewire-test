@@ -15,10 +15,10 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th>#</th>
+            <th scope="col" width="50">#</th>
             <th>Name</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th width="150">Actions</th>
         </tr>
     </thead>
     <tbody>

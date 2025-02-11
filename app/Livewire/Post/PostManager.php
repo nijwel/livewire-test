@@ -4,6 +4,7 @@ namespace App\Livewire\Post;
 
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -25,7 +26,7 @@ class PostManager extends Component {
 
     protected $rules = [
         'name'        => 'required|string|max:255',
-        'category_id' => 'required|exists:categories',
+        'category_id' => 'required|exists:categories,id',
         'price'       => 'required|numeric',
         'quantity'    => 'required|numeric',
         'description' => 'nullable|string',
@@ -34,16 +35,6 @@ class PostManager extends Component {
 
     public function mount() {
         $this->categories = Category::whereStatus( 'active' )->get( ['id', 'name'] );
-    }
-
-    public function render() {
-        $posts = Post::where( 'name', 'like', '%' . $this->search . '%' )
-            ->orWhere( 'description', 'like', '%' . $this->search . '%' )
-            ->with( 'category:id,name' )
-            ->latest()
-            ->paginate( $this->perPage );
-
-        return view( 'livewire.post.post-manager', compact( 'posts' ) );
     }
 
     public function resetForm() {
@@ -68,22 +59,26 @@ class PostManager extends Component {
             $this->quantity    = $post->quantity;
             $this->description = $post->description;
             $this->image       = $post->image;
+            $this->category_id = $post->category_id;
         }
 
         $this->view = $view;
     }
 
-    public function store() {
+    public function postStore() {
+
         $this->validate();
 
         $path = $this->newImage ? $this->newImage->store( 'posts', 'public' ) : null;
 
         Post::create( [
             'name'        => $this->name,
+            'slug'        => Str::slug( $this->name ),
             'price'       => $this->price,
             'quantity'    => $this->quantity,
             'description' => $this->description,
             'image'       => $path,
+            'category_id' => $this->category_id,
         ] );
 
         session()->flash( 'message', 'Post created successfully!' );
@@ -91,7 +86,8 @@ class PostManager extends Component {
         $this->view = 'list';
     }
 
-    public function update() {
+    public function postUpdate() {
+
         $this->validate();
 
         $post = Post::findOrFail( $this->post_id );
@@ -104,6 +100,7 @@ class PostManager extends Component {
             'quantity'    => $this->quantity,
             'description' => $this->description,
             'image'       => $path,
+            'category_id' => $this->category_id,
         ] );
 
         session()->flash( 'message', 'Post updated successfully!' );
@@ -116,10 +113,24 @@ class PostManager extends Component {
         $this->deleteId         = $id;
     }
 
-    public function delete() {
+    public function postDelete() {
         Post::findOrFail( $this->deleteId )->delete();
         session()->flash( 'message', 'Post deleted successfully!' );
         $this->confirmingDelete = false;
         $this->deleteId         = null;
+    }
+
+    public function render() {
+        $posts = Post::where( function ( $query ) {
+            $query->whereAny( ['name', 'description'], 'like', '%' . $this->search . '%' );
+        } )
+            ->when( $this->category_id, function ( $query ) {
+                $query->where( 'category_id', $this->category_id );
+            } )
+            ->with( 'category:id,name' )
+            ->latest()
+            ->paginate( $this->perPage );
+
+        return view( 'livewire.post.post-manager', compact( 'posts' ) );
     }
 }

@@ -24,11 +24,11 @@
     @endif
 
     @if ($view == 'list')
-        <x-post.index :posts="$posts" />
+        <x-post.index :posts="$posts" :categories="$categories" />
     @elseif($view == 'create')
         <x-post.create :image="$image" :categories="$categories" />
     @elseif($view == 'edit')
-        <x-post.edit :image="$image" />
+        <x-post.edit :image="$image" :categories="$categories" />
     @endif
 
     <x-confirmation-modal :confirmingDelete="$confirmingDelete" />

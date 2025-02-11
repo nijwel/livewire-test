@@ -23,6 +23,6 @@
             <span class="text-danger">{{ $message }}</span>
         @enderror
     </div>
-    <button type="button" class="btn btn-sm btn-primary mt-3">Save</button>
+    <button type="submit" class="btn btn-sm btn-primary mt-3">Save</button>
     <button type="button" class="btn btn-sm btn-secondary mt-3" wire:click="changeView('list')">Cancel</button>
 </form>

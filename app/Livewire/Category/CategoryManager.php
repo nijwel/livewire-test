@@ -23,7 +23,6 @@ class CategoryManager extends Component {
 
     protected $rules = [
         'name'   => 'required|string|unique:categories,slug|max:255',
-        'slug'   => 'nullable|string|max:255|unique:categories,slug',
         'status' => 'required|in:active,inactive',
     ];
 
