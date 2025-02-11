@@ -26,9 +26,12 @@
             <tr>
                 <td>{{ ++$key }}</td>
                 <td>{{ $category->name }}</td>
-                <td>{{ $category->status }}</td>
+                <td><span
+                        class=" badge @if ($category->status == 'active') bg-success @else bg-danger @endif  ">{{ $category->status }}</span>
+                </td>
                 <td>
-                    <button class="btn btn-sm btn-warning"
+                    <button class="btn
+                        btn-sm btn-warning"
                         wire:click="changeView('edit', {{ $category->id }})">Edit</button>
                     <button class="btn btn-sm btn-danger"
                         wire:click="confirmDelete({{ $category->id }})">Delete</button>
