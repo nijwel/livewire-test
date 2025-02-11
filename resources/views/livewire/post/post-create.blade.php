@@ -1,5 +1,5 @@
 <div>
-    <h2>Create Product</h2>
+    <h2>Create Post</h2>
     @if (session()->has('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -7,8 +7,8 @@
     @endif
     <form wire:submit.prevent="save">
         <div class="form-group mt-3">
-            <label for="name">Product Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter product name" wire:model="name">
+            <label for="name">Tile</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter title" wire:model="name">
             @error('name')
                 <span class="text-danger">{{ $message }}</span>
             @enderror

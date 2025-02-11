@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Livewire\Product;
+namespace App\Livewire\Post;
 
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Post;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
-#[Title( 'Product Manager' )]
-class ProductManager extends Component {
+#[Title( 'Post Manager' )]
+class PostManager extends Component {
     use WithPagination, WithFileUploads;
 
     protected $paginationTheme = 'bootstrap';
@@ -21,7 +21,7 @@ class ProductManager extends Component {
     public $deleteId         = null;
     public $perPage          = 10;
 
-    public $product_id, $name, $price, $quantity, $description, $image, $newImage, $category_id, $categories = [];
+    public $post_id, $name, $price, $quantity, $description, $image, $newImage, $category_id, $categories = [];
 
     protected $rules = [
         'name'        => 'required|string|max:255',
@@ -37,16 +37,16 @@ class ProductManager extends Component {
     }
 
     public function render() {
-        $products = Product::where( 'name', 'like', '%' . $this->search . '%' )
+        $posts = Post::where( 'name', 'like', '%' . $this->search . '%' )
             ->orWhere( 'description', 'like', '%' . $this->search . '%' )
             ->latest()
             ->paginate( $this->perPage );
 
-        return view( 'livewire.product.product-manager', compact( 'products' ) );
+        return view( 'livewire.post.post-manager', compact( 'posts' ) );
     }
 
     public function resetForm() {
-        $this->product_id  = null;
+        $this->post_id     = null;
         $this->name        = '';
         $this->price       = '';
         $this->quantity    = '';
@@ -60,13 +60,13 @@ class ProductManager extends Component {
         $this->resetForm();
 
         if ( $view == 'edit' && $id ) {
-            $product           = Product::findOrFail( $id );
-            $this->product_id  = $product->id;
-            $this->name        = $product->name;
-            $this->price       = $product->price;
-            $this->quantity    = $product->quantity;
-            $this->description = $product->description;
-            $this->image       = $product->image;
+            $post              = Post::findOrFail( $id );
+            $this->post_id     = $post->id;
+            $this->name        = $post->name;
+            $this->price       = $post->price;
+            $this->quantity    = $post->quantity;
+            $this->description = $post->description;
+            $this->image       = $post->image;
         }
 
         $this->view = $view;
@@ -75,9 +75,9 @@ class ProductManager extends Component {
     public function store() {
         $this->validate();
 
-        $path = $this->newImage ? $this->newImage->store( 'products', 'public' ) : null;
+        $path = $this->newImage ? $this->newImage->store( 'posts', 'public' ) : null;
 
-        Product::create( [
+        Post::create( [
             'name'        => $this->name,
             'price'       => $this->price,
             'quantity'    => $this->quantity,
@@ -85,7 +85,7 @@ class ProductManager extends Component {
             'image'       => $path,
         ] );
 
-        session()->flash( 'message', 'Product created successfully!' );
+        session()->flash( 'message', 'Post created successfully!' );
         $this->resetForm();
         $this->view = 'list';
     }
@@ -93,11 +93,11 @@ class ProductManager extends Component {
     public function update() {
         $this->validate();
 
-        $product = Product::findOrFail( $this->product_id );
+        $post = Post::findOrFail( $this->post_id );
 
-        $path = $this->newImage ? $this->newImage->store( 'products', 'public' ) : $product->image;
+        $path = $this->newImage ? $this->newImage->store( 'posts', 'public' ) : $post->image;
 
-        $product->update( [
+        $post->update( [
             'name'        => $this->name,
             'price'       => $this->price,
             'quantity'    => $this->quantity,
@@ -105,7 +105,7 @@ class ProductManager extends Component {
             'image'       => $path,
         ] );
 
-        session()->flash( 'message', 'Product updated successfully!' );
+        session()->flash( 'message', 'Post updated successfully!' );
         $this->resetForm();
         $this->view = 'list';
     }
@@ -116,8 +116,8 @@ class ProductManager extends Component {
     }
 
     public function delete() {
-        Product::findOrFail( $this->deleteId )->delete();
-        session()->flash( 'message', 'Product deleted successfully!' );
+        Post::findOrFail( $this->deleteId )->delete();
+        session()->flash( 'message', 'Post deleted successfully!' );
         $this->confirmingDelete = false;
         $this->deleteId         = null;
     }

@@ -59,7 +59,7 @@
                         @else
                             <li><a class="nav-link" href="{{ route('home') }}" wire:navigate>Home</a></li>
                             <li><a class="nav-link" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
-                            <li><a class="nav-link" href="/product" wire:navigate ware:current="active fw-bold">Product</a>
+                            <li><a class="nav-link" href="/post" wire:navigate ware:current="active fw-bold">Posts</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"

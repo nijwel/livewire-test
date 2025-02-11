@@ -1,5 +1,5 @@
 <div>
-    <h3>Product List</h3>
+    <h3>Post List</h3>
     @if (session()->has('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -18,24 +18,23 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($products as $product)
+            @foreach ($posts as $post)
                 <tr>
-                    <th scope="row">{{ $product->id }}</th>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->price }}</td>
-                    <td>{{ $product->quantity }}</td>
+                    <th scope="row">{{ $post->id }}</th>
+                    <td>{{ $post->name }}</td>
+                    <td>{{ $post->price }}</td>
+                    <td>{{ $post->quantity }}</td>
                     <td>
-                        @if ($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                width="50">
+                        @if ($post->image)
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->name }}" width="50">
                         @else
                             N/A
                         @endif
                     </td>
-                    <td>{{ $product->description }}</td>
+                    <td>{{ $post->description }}</td>
                     <td>
-                        <button class="btn btn-sm btn-primary" wire:click="edit({{ $product->id }})">Edit</button>
-                        <button class="btn btn-sm btn-danger" wire:click="delete({{ $product->id }})">Delete</button>
+                        <button class="btn btn-sm btn-primary" wire:click="edit({{ $post->id }})">Edit</button>
+                        <button class="btn btn-sm btn-danger" wire:click="delete({{ $post->id }})">Delete</button>
                     </td>
                 </tr>
             @endforeach
