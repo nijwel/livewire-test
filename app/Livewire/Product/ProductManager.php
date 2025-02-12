@@ -2,14 +2,14 @@
 
 namespace App\Livewire\Product;
 
+use App\Models\Category;
 use App\Models\Product;
-use Livewire\Component;
-use Livewire\WithPagination;
-use Livewire\WithFileUploads;
 use Livewire\Attributes\Title;
-use Livewire\Attributes\Url;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
-#[Title('Product Manager')]
+#[Title( 'Product Manager' )]
 class ProductManager extends Component {
     use WithPagination, WithFileUploads;
 
@@ -21,15 +21,20 @@ class ProductManager extends Component {
     public $deleteId         = null;
     public $perPage          = 10;
 
-    public $product_id, $name, $price, $quantity, $description, $image, $newImage;
+    public $product_id, $name, $price, $quantity, $description, $image, $newImage, $category_id, $categories = [];
 
     protected $rules = [
         'name'        => 'required|string|max:255',
+        'category_id' => 'required|exists:categories',
         'price'       => 'required|numeric',
         'quantity'    => 'required|numeric',
         'description' => 'nullable|string',
         'newImage'    => 'nullable|image|max:2048',
     ];
+
+    public function mount() {
+        $this->categories = Category::whereStatus( 'active' )->get( ['id', 'name'] );
+    }
 
     public function render() {
         $products = Product::where( 'name', 'like', '%' . $this->search . '%' )
@@ -47,6 +52,7 @@ class ProductManager extends Component {
         $this->quantity    = '';
         $this->description = '';
         $this->image       = '';
+        $this->category_id = '';
         $this->newImage    = null;
     }
 

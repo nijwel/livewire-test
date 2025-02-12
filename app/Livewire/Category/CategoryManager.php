@@ -2,36 +2,33 @@
 
 namespace App\Livewire\Category;
 
-use Livewire\Component;
 use App\Models\Category;
-
-
 use Illuminate\Support\Str;
-use Livewire\WithPagination;
 use Livewire\Attributes\Title;
+use Livewire\Component;
+use Livewire\WithPagination;
 
-#[Title('Category Manager')]
-class CategoryManager extends Component
-{
+#[Title( 'Category Manager' )]
+class CategoryManager extends Component {
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    public $search = '';
-    public $perPage = 10;
-    public $view = 'list'; // 'list' | 'create' | 'edit'
-    public $confirmingDelete = false;
-    public $deleteId = null;
+    public $search             = '';
+    public $perPage            = 10;
+    public $view               = 'list'; // 'list' | 'create' | 'edit'
+    public $confirmingDelete   = false;
+    public $deleteId           = null;
 
-    public $name , $slug , $status , $category_id;
+    public $name, $slug, $status, $category_id;
 
     protected $rules = [
-        'name'      => 'required|string|unique:categories,slug|max:255',
-        'slug'      => 'nullable|string|max:255|unique:categories,slug',
-        'status'    => 'required|in:active,inactive',
+        'name'   => 'required|string|unique:categories,slug|max:255',
+        'slug'   => 'nullable|string|max:255|unique:categories,slug',
+        'status' => 'required|in:active,inactive',
     ];
 
     public function resetForm() {
-        $this->category_id  = null;
+        $this->category_id = null;
         $this->name        = '';
     }
 
@@ -40,24 +37,23 @@ class CategoryManager extends Component
         $this->resetForm();
 
         if ( $view == 'edit' && $id ) {
-            $category           = Category::findOrFail( $id );
-            $this->category_id  = $category->id;
+            $category          = Category::findOrFail( $id );
+            $this->category_id = $category->id;
             $this->name        = $category->name;
-            $this->slug       = $category->slug;
-            $this->status    = $category->status;
+            $this->slug        = $category->slug;
+            $this->status      = $category->status;
         }
 
         $this->view = $view;
     }
 
-
     public function store() {
         $this->validate();
 
         Category::create( [
-            'name'        => $this->name,
-            'slug'       => Str::slug($this->name),
-            'status'    => $this->status,
+            'name'   => $this->name,
+            'slug'   => Str::slug( $this->name ),
+            'status' => $this->status,
         ] );
 
         session()->flash( 'message', 'Category created successfully!' );
@@ -66,16 +62,14 @@ class CategoryManager extends Component
     }
 
     public function update() {
-
-        dd(123);
         $this->validate();
 
         $category = Category::findOrFail( $this->category_id );
 
         $category->update( [
-            'name'        => $this->name,
-            'slug'       => Str::slug($this->name),
-            'status'    => $this->status,
+            'name'   => $this->name,
+            'slug'   => Str::slug( $this->name ),
+            'status' => $this->status,
         ] );
 
         session()->flash( 'message', 'Category updated successfully!' );
@@ -95,13 +89,21 @@ class CategoryManager extends Component
         $this->deleteId         = null;
     }
 
-
-    public function render()
-    {
-        $categories = Category::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('slug', 'like', '%' . $this->search . '%')
+    public function mount() {
+        $categories = Category::where( 'name', 'like', '%' . $this->search . '%' )
+            ->with( 'children:id,name,parent_id' )
+            ->orWhere( 'slug', 'like', '%' . $this->search . '%' )
             ->latest()
-            ->paginate($this->perPage);
-        return view('livewire.category.category-manager', compact('categories'));
+            ->paginate( $this->perPage );
+    }
+
+    public function render() {
+        $categories = Category::where( 'name', 'like', '%' . $this->search . '%' )
+            ->whereNull( 'parent_id' )
+            ->with( 'children:id,name,parent_id' )
+            ->orWhere( 'slug', 'like', '%' . $this->search . '%' )
+            ->latest()
+            ->paginate( $this->perPage );
+        return view( 'livewire.category.category-manager', compact( 'categories' ) );
     }
 }

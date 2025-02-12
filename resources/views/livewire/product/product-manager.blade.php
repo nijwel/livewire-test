@@ -26,7 +26,7 @@
     @if ($view == 'list')
         <x-product.index :products="$products" />
     @elseif($view == 'create')
-        <x-product.create :image="$image" />
+        <x-product.create :image="$image" :categories="$categories" />
     @elseif($view == 'edit')
         <x-product.edit :image="$image" />
     @endif
