@@ -89,14 +89,6 @@ class CategoryManager extends Component {
         $this->deleteId         = null;
     }
 
-    public function mount() {
-        $categories = Category::where( 'name', 'like', '%' . $this->search . '%' )
-            ->with( 'children:id,name,parent_id' )
-            ->orWhere( 'slug', 'like', '%' . $this->search . '%' )
-            ->latest()
-            ->paginate( $this->perPage );
-    }
-
     public function render() {
         $categories = Category::where( 'name', 'like', '%' . $this->search . '%' )
             ->whereNull( 'parent_id' )
