@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $title ?? 'Page Title' }}</title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
@@ -57,8 +57,13 @@
                                 </li>
                             @endif
                         @else
-                            <li><a class="nav-link" href="{{ route('home') }}" wire:navigate>Home</a></li>
-                            <li><a class="nav-link" href="{{ route('category.index') }}" wire:navigate>Category</a></li>
+                            <li><a class="nav-link" href="{{ route('home') }}" wire:navigate
+                                    ware:current="active fw-bold">Home</a></li>
+                            <li><a class="nav-link" href="/category" ware:current="active fw-bold"
+                                    wire:navigate>Category</a>
+                            </li>
+                            <li><a class="nav-link" href="/product" wire:navigate ware:current="active fw-bold">Product</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -82,7 +87,7 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4">
+        <main class="py-4 container">
             {{-- Controller Blade page --}}
             @yield('content')
 

@@ -14,7 +14,8 @@
                             </div>
                         @endif
                         {{-- <livewire:counter /> --}}
-                        <livewire:product.product-manager />
+                        {{-- <livewire:product.product-manager /> --}}
+                        {{ __('You are logged in!') }}
                         <br>
                         <br>
                     </div>

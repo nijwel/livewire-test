@@ -4,9 +4,12 @@ namespace App\Livewire\Product;
 
 use App\Models\Product;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Url;
 
+#[Title('Product Manager')]
 class ProductManager extends Component {
     use WithPagination, WithFileUploads;
 
@@ -16,7 +19,7 @@ class ProductManager extends Component {
     public $search           = '';
     public $confirmingDelete = false;
     public $deleteId         = null;
-    public $perPage          = 5;
+    public $perPage          = 10;
 
     public $product_id, $name, $price, $quantity, $description, $image, $newImage;
 
