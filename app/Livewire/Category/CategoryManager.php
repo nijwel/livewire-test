@@ -89,10 +89,11 @@ class CategoryManager extends Component {
     }
 
     public function render() {
-        $categories = Category::where( 'name', 'like', '%' . $this->search . '%' )
-            ->whereNull( 'parent_id' )
+        $categories = Category::whereNull( 'parent_id' )
+            ->where( function ( $query ) {
+                $query->where( 'name', 'like', '%' . $this->search . '%' );
+            } )
             ->with( 'children:id,name,parent_id' )
-            ->orWhere( 'slug', 'like', '%' . $this->search . '%' )
             ->latest()
             ->paginate( $this->perPage );
         return view( 'livewire.category.category-manager', compact( 'categories' ) );

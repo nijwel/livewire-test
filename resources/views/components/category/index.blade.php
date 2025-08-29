@@ -9,8 +9,9 @@
         <option value="100">100</option>
         <option value="200">200</option>
     </select>
-    <input type="search" class="form-control w-25" placeholder="Search..." wire:model.live.debounce.500ms="search">
-    <button class="btn btn-sm btn-primary mb-2 float-end" wire:click="changeView('create')">+ Create Category</button>
+    <input type="search" class="form-control form-control-sm w-25" placeholder="Search..."
+        wire:model.live.debounce.500ms="search">
+    <button class="btn btn-sm btn-primary mb-2 float-end" wire:click="changeView('create')">+ Create New</button>
 </div>
 <table class="table table-bordered">
     <thead>
