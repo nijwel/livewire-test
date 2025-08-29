@@ -15,7 +15,7 @@
             <option value="{{ $category->id }}">{{ $category->name }}</option>
         @endforeach
     </select>
-    <input type="text" class="form-control w-25" placeholder="Search..." wire:model.live.debounce.500ms="search">
+    <input type="search" class="form-control w-25" placeholder="Search..." wire:model.live.debounce.500ms="search">
     <button class="btn btn-sm btn-primary mb-2 float-end" wire:click="changeView('create')">+ Create Post</button>
 </div>
 <table class="table table-bordered">
